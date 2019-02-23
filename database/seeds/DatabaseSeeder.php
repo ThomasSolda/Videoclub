@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\Movie;
-
+use App\User;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -173,6 +173,18 @@ class DatabaseSeeder extends Seeder
          )
        );
 
+       private $arrayUsuarios = array(
+           array(
+             'name' => 'Thomas',
+             'email' => 'Thomas@thomas.com',
+             'password' => 'batata'
+           ),
+           array(
+             'name' => 'Joaquin',
+             'email' => 'joaquin@joaquin.com',
+             'password' => 'qwerty'
+           ));
+
     private function seedCatalog(){
       DB::table('movies')->delete();
       foreach( $this->arrayPeliculas as $pelicula ) {
@@ -187,9 +199,22 @@ class DatabaseSeeder extends Seeder
       }
     }
 
+    private function seedUsers(){
+      DB::table('users')->delete();
+      foreach ($this->arrayUsuarios as $usuario) {
+        $user = new User;
+        $user->name = $usuario['name'];
+        $user->email = $usuario['email'];
+        $user->password = bcrypt( $usuario['password'] );
+        $user->save();
+      }
+    }
+
     public function run()
     {
       self::seedCatalog();
-      $this->command->info('Tabla catálogo inicializada con datos!');
+      // $this->command->info('Tabla catálogo inicializada con datos!');
+      self::seedUsers();
+      $this->command->info('Tabla usuarios inicializada con datos!');
     }
 }

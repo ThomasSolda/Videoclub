@@ -8,5 +8,13 @@ class Movie extends Model
 {
     protected $table = 'movies';
 
+    protected $fillable = [
+      'title',
+      'year',
+      'director',
+      'poster',
+      'synopsis'  
+    ];
+
 
 }
